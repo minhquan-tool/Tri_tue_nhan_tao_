@@ -1,1 +1,2 @@
-# Tri_tue_nhan_tao_
+Võ Minh Quân
+24110312
