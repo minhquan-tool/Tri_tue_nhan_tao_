@@ -16,6 +16,8 @@ from modun.dfs_optimal import DFS_OPTIMAL
 from modun.ucs import UCS
 from modun.ids import IDS
 from modun.ids_early import IDS_EARLY
+from modun.greedy_algorithm import GREEDY
+from modun.a_star import A_STAR
 
 ALG_MAP = {
     "BFS": BFS(),
@@ -24,7 +26,9 @@ ALG_MAP = {
     "DFS Optimal": DFS_OPTIMAL(),
     "UCS": UCS(),
     "IDS": IDS(),
-    "IDS_EARLY": IDS_EARLY()
+    "IDS EARLY": IDS_EARLY(),
+    "GREEDY": GREEDY(),
+    "A STAR": A_STAR()
 }
 
 pygame.init()
@@ -202,7 +206,7 @@ class Visualizer:
             rx  = ALGO_START_X + col * (ALGO_BTN_W + ALGO_GAP_X)
             ry  = ALGO_START_Y + row * (ALGO_BTN_H + ALGO_GAP_Y)
             self.algo_buttons.append(AlgoButton((rx, ry, ALGO_BTN_W, ALGO_BTN_H), name))
-        # ──────────────────────────────────────────────────────────────
+        
 
         self.btn_rand  = Button((660, 28, 130, 38), "RANDOM", (130, 100, 40), radius=7)
         self.btn_run   = Button((805, 28, 150, 38), "RUN", (30, 140, 80), radius=7,
@@ -261,7 +265,7 @@ class Visualizer:
 
         if path and isinstance(path, list):
             self.running_simulation = True
-            self._status_msg   = f"Mô phỏng: {len(path)} bước"
+            self._status_msg   = f"Mô phỏng đường chạy: {len(path)} bước"
             self._status_color = C["accent2"]
         else:
             self._status_msg   = "Không có đường đi!"
@@ -290,7 +294,7 @@ class Visualizer:
             time.sleep(0.35)
         else:
             self.running_simulation = False
-            self._status_msg   = "✓ Hoàn thành!"
+            self._status_msg   = " Đã hoàn thành công việc rồi á ní!"
             self._status_color = C["accent2"]
 
     def handle_click(self, mx, my):
@@ -342,7 +346,7 @@ class Visualizer:
         t = FONT_XL.render("MAY_HUT_BUI_2.0", True, C["text"])
         surf.blit(t, (260, 22))
 
-        grid_lbl = FONT_SM.render("LƯỚI: 5×5", True, C["text_dim"])
+        grid_lbl = FONT_SM.render("MA TRẬN: 5×5", True, C["text_dim"])
         surf.blit(grid_lbl, (490, 38))
 
         # Buttons
@@ -352,13 +356,12 @@ class Visualizer:
         else:
             self.btn_run.draw(surf, mouse)
 
-        # ── Vẽ nhãn + lưới nút thuật toán ──────────────────────────
         alg_label = FONT_SM.render("THUẬT TOÁN", True, C["text_dim"])
         surf.blit(alg_label, (self.PANEL_LEFT, 90))
 
         for btn in self.algo_buttons:
             btn.draw(surf, mouse, btn.label == self.current_algo)
-        # ────────────────────────────────────────────────────────────
+      
 
         lp = pygame.Rect(self.GRID_X - 10, 260, self.GRID_MAX + 30, self.GRID_MAX + 60)
         draw_rect_border(surf, C["panel"], C["border"], lp, radius=10)
