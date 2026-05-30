@@ -16,8 +16,12 @@ from modun.dfs_optimal import DFS_OPTIMAL
 from modun.ucs import UCS
 from modun.ids import IDS
 from modun.ids_early import IDS_EARLY
-from modun.greedy_algorithm import GREEDY
+from modun.greedy_algorithm import GREEDYALGORITHM
 from modun.a_star import A_STAR
+from modun.ida_star import IDA_STAR
+from modun.simple_hill_climbing import SIMPLE_HC
+from modun.ignorant_hill_climbing import IGNORANT_HC
+from modun.random_hill_climbing import RANDOM_HC
 
 ALG_MAP = {
     "BFS": BFS(),
@@ -27,8 +31,12 @@ ALG_MAP = {
     "UCS": UCS(),
     "IDS": IDS(),
     "IDS EARLY": IDS_EARLY(),
-    "GREEDY": GREEDY(),
-    "A STAR": A_STAR()
+    "GREEDY ALGORITHM": GREEDYALGORITHM(),
+    "A STAR": A_STAR(),
+    "IDA STAR": IDA_STAR(),
+    "SIMPLE_HC": SIMPLE_HC(), 
+    "IGNORANT_HC": IGNORANT_HC(),
+    "RANDOM_HC": RANDOM_HC(),
 }
 
 pygame.init()
