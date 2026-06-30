@@ -1,0 +1,45 @@
+import heapq
+from .demo import BaseAlg
+
+class GREEDYALGORITHM(BaseAlg):
+ def heuristic(self, state):
+    x, y, dirt = state
+   
+    if isinstance(dirt, (set, frozenset, tuple, list)):
+        return len(dirt)
+   
+    return bin(dirt).count('1')
+
+ def solve(self, start_state):
+        self.logs = ["[GREEDY] Bắt đầu tìm kiếm..."]
+
+        if self.is_goal(start_state[2]):
+            self.logs.append("[GREEDY] Đích đã đạt ngay từ đầu!")
+            return [], self.logs
+
+        counter = 0
+        frontier = []
+        heapq.heappush(frontier, (self.heuristic(start_state), counter, start_state, []))
+        reached = {start_state}
+
+        expanded = 0
+        while frontier:
+            h, _, state, path = heapq.heappop(frontier)  # luôn lấy h(n) nhỏ nhất
+            expanded += 1
+
+            if self.is_goal(state[2]):
+                self.logs.append(f"[GREEDY] Tìm thấy lời giải! Số bước: {len(path)}")
+                self.logs.append(f"[GREEDY] Nút đã mở rộng: {expanded}")
+                return path, self.logs
+
+            reached.add(state)
+
+            for action in self.actions(state[0], state[1], state[2]):
+                child_state = self.apply_action(state, action)
+                if child_state not in reached:
+                    counter += 1
+                    heapq.heappush(frontier, (self.heuristic(child_state), counter, child_state, path + [action]))
+                    reached.add(child_state)
+
+        self.logs.append("[GREEDY] Không tìm thấy đường đi!")
+        return None, self.logs
